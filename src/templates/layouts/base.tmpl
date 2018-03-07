@@ -1,0 +1,77 @@
+{{ define "base" }}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="msapplication-tap-highlight" content="no">
+
+        <!--Import Google Icon Font-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">        
+
+        <!--Import materialize.css-->
+        <link rel="stylesheet" href="/static/css/materialize.min.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <title>{{ block "title" . }} {{ end }}</title>
+    </head>
+
+    <body>
+
+        <header>
+            <nav>
+                <div class="nav-wrapper">
+                    <div class="row">
+                        <div class="container">
+                            <a href="#" data-activates="nav-mobile" class="button-collapse hide-on-large-only"><i class="material-icons">menu</i></a>
+                        </div>
+                        <div class="col s1 push-s1">
+                            <a href="#" class="brand-logo">Tasky</a>
+                        </div>
+                        <ul id="top-nav" class="right hide-on-med-and-down">
+                            <li><a href="/account">My Account</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <ul id="nav-mobile" class="side-nav fixed my-dark-transparent white-text">
+                <li class="logo">
+                    <img src="https://cstuy.org/static/about/thluffy-left.png" height="80px">
+                </li>
+                <li class="search">
+                    <div class="search-wrapper card">
+                        <input id="search" class="black-text"><i class="material-icons icon-black">search</i>
+                        <div class="search-results"></div>
+                    </div>
+                </li>                
+                <li><a href="#!">Today</a></li>
+                <li><a href="#!">Upcoming</a></li>
+                <li><a href="#!">Thought Cloud</a></li>                
+            </ul>
+
+        </header>
+        <main>
+            <div class="container">
+              {{ template "content" . }}
+            </div>
+        </main>
+        
+        <footer>
+
+        </footer>
+
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="/static/js/materialize.min.js"></script>        
+        <script type="text/javascript" src="/static/js/main.js"></script>
+    </body>
+</html>
+
+{{ end }}
