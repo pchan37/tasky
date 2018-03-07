@@ -2,11 +2,11 @@ package templateManager
 
 import (
 	"fmt"
-	"github.com/oxtoacart/bpool"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
+	"tasky/pkg/bpool"
 )
 
 type templateConfig struct {
