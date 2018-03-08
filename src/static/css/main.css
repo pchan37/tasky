@@ -9,7 +9,7 @@ header, main, footer {
 }
 
 nav {
-  background-color: rgba(0, 0, 0, 0.8)
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .my-dark-transparent {  
@@ -21,7 +21,7 @@ nav {
 }
 
 .black-text {
-  color: black
+  color: black;
 }
 
 nav ul li a:hover {
@@ -29,5 +29,29 @@ nav ul li a:hover {
 }
 
 i.icon-black {
-  color: black
+  color: black;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.no-rounded-corners {
+  border-radius: 0px;
+}
+
+.handle {
+  cursor: move;
+}
+
+.remove {
+  cursor: pointer;
+}
+
+.no-block {
+  display: inline !important;
+}
+
+.extra-spacing {
+  margin-right: 16px;
 }

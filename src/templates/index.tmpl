@@ -1,23 +1,62 @@
 {{ define "title" }}Homepage{{ end }}
 
 {{ define "content" }}
-<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-    <a class="btn-floating btn-large red">
-        <i class="material-icons">add</i>
-    </a>
-    <ul>
-        <li>
-            <a class="btn-floating red" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px) translateX(0px); opacity: 0;"><i class="material-icons">insert_chart</i></a>
-        </li>
-        <li>
-            <a class="btn-floating yellow darken-1" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px) translateX(0px); opacity: 0;"><i class="material-icons">format_quote</i></a>
-        </li>
-        <li>
-            <a class="btn-floating green" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px) translateX(0px); opacity: 0;"><i class="material-icons">publish</i></a>
-        </li>
-        <li>
-            <a class="btn-floating blue" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px) translateX(0px); opacity: 0;"><i class="material-icons">attach_file</i></a>
-        </li>
-    </ul>
+
+<div id="vue-container">
+    <div id="drag-scope">
+        <todo-container :data="tasks">
+            <todo-item inline-template v-for="(task, index) in tasks" :data="task" @remove="tasks.splice(index, 1)">
+                <div class="card grey darken-3 no-margin no-rounded-corners">
+                    <div class="card-content white-text lmdd-block">                        
+                        <div class="row">                            
+                            <div class="col s11">
+                                <span class="card-title no-block extra-spacing">{{`{{data[0]}}`}}</span>
+                                <span>({{`{{data[2]}}`}})</span>
+                            </div>
+                            <div class="col">
+                                <a class="remove" @click="$emit('remove')"><i class="material-icons">clear</i></a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s11">
+                                <span>{{`{{data[1]}}`}}</span>
+                            </div>
+                            <div class="col">
+                                <i class="material-icons handle">reorder</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </todo-item>
+        </todo-container>
+    </div>
 </div>
+
+<div class="container">
+    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large red">
+            <i class="material-icons">add</i>
+        </a>
+        <ul>
+            <li>
+                <a class="btn-floating red" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px) translateX(0px); opacity: 0;"><i class="material-icons">insert_chart</i></a>
+            </li>
+            <li>
+                <a class="btn-floating yellow darken-1" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px) translateX(0px); opacity: 0;"><i class="material-icons">format_quote</i></a>
+            </li>
+            <li>
+                <a class="btn-floating green" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px) translateX(0px); opacity: 0;"><i class="material-icons">publish</i></a>
+            </li>
+            <li>
+                <a class="btn-floating blue" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px) translateX(0px); opacity: 0;"><i class="material-icons">attach_file</i></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script src="https://cdn.rawgit.com/supraniti/Lean-Mean-Drag-and-Drop/master/dist/lmdd.js"></script>
+<link rel="stylesheet" href="/static/css/lmdd.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.1/vue.min.js"></script>
+<script src="/static/js/vue-container.js"></script>
+
 {{ end }}
