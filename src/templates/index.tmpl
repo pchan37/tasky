@@ -5,36 +5,77 @@
 <div id="vue-container">
     <div id="drag-scope">
         <todo-container :data="tasks">
-            <todo-item inline-template v-for="(task, index) in tasks" :data="task" @remove="tasks.splice(index, 1)">
-                <div class="card grey darken-3 no-margin no-rounded-corners">
-                    <div class="card-content white-text lmdd-block">
-                        <div class="row">
-                            <div class="col s1">
-                                <input  :id="'task' + index" name="group" type="checkbox" class="white" />
-                                <label :for="'task' + index"></label>
-                            </div>
-                            <div class="col s11">
-                                <div class="row">                            
-                                    <div class="col s11">
-                                        <span class="card-title no-block extra-spacing inline-editable textarea-editable">{{`{{data[0]}}`}}</span>
-                                        <span class="inline-editable timepicker-editable">({{`{{data[2]}}`}})</span>
-                                    </div>
-                                    <div class="col">
-                                        <a class="remove" @click="$emit('remove')"><i class="material-icons">clear</i></a>
-                                    </div>
+            <todo-item v-for="(task, index) in tasks" :data="task">
+
+                <template v-if="!task.editing">
+                    <div class="card grey darken-3 no-margin no-rounded-corners">
+                        <div class="card-content white-text lmdd-block">
+                            <div class="row">
+                                <div class="col s1">
+                                    <input :id="'task' + index" name="group" type="checkbox" class="white" />
+                                    <label :for="'task' + index"></label>
                                 </div>
-                                <div class="row">
-                                    <div class="col s11">
-                                        <span class="inline-editable textarea-editable">{{`{{data[1]}}`}}</span>
+                                <div class="col s11">
+                                    <div class="row">
+                                        <div class="col s11" @click="task.editing=true">
+                                            <span class="card-title no-block extra-spacing">{{`{{task.title}}`}} </span>
+                                            <span>({{`{{task.time}}`}})</span>
+                                        </div>
+                                        <div class="col">
+                                            <a class="remove" @click="tasks.splice(index, 1)"><i class="material-icons">clear</i></a>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        <i class="material-icons handle">reorder</i>
+                                    <div class="row">
+                                        <div class="col s11" @click="task.editing=true">
+                                            <span>{{`{{task.body}}`}}</span>
+                                        </div>
+                                        <div class="col">
+                                            <i class="material-icons handle">reorder</i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </template>
+
+                <template v-else>
+                    <div class="card grey darken-3 no-margin no-rounded-corners">
+                        <div class="card-content white-text lmdd-block">
+                            <div class="row">
+                                <div class="col s1">
+                                    <input :id="'task' + index" name="group" type="checkbox" class="white" />
+                                    <label :for="'task' + index"></label>
+                                </div>
+                                <div class="col s11">
+                                    <div class="row">
+                                        <div class="col s11">
+                                            <input class="black-text extra-spacing" type="textarea" v-model="task.title" />
+                                            <input class="black-text" type="textarea" v-model="task.time" />
+                                        </div>
+                                        <div class="col">
+                                            <a class="remove" @click="tasks.splice(index, 1)"><i class="material-icons">clear</i></a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s11">
+                                            <textarea class="white materialize-textarea textarea-extra-padding round black-text" v-model="task.body"></textarea>
+                                        </div>
+                                        <div class="col">
+                                            <i class="material-icons handle">reorder</i>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s11">
+                                            <a class="waves-effect waves-light btn grey darken-3 white-text" @click.prevent="task.editing=false">Save</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
             </todo-item>
         </todo-container>
     </div>

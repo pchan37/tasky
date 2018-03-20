@@ -4,6 +4,7 @@ Vue.component('todo-container', {
 });
 
 Vue.component('todo-item', {
+    template: '<div class="todo-item"><slot></slot></div>',
     props: ['data']
 });
 
@@ -11,14 +12,14 @@ var vue = new Vue({
     el: '#vue-container',
     data: {
         tasks: [
-            ['Dishes', 'Do the dishes', '2hrs left'],
-            ['Trash', 'Take out the trash', '2hrs left'],
-            ['Lawn', 'Mow the lawn', '2hrs left'],
+            {title: 'Dishes', body: 'Do the dishes', time: '2hrs left', editing: true},
+            {title: 'Trash', body: 'Take out the trash', time: '2hrs left', editing: false},
+            {title: 'Lawn', body: 'Mow the lawn', time: '2hrs left', editing: false}
         ]
     },
     mounted: function() {
         lmdd.set(document.getElementById('drag-scope'), {
-            containerClass: 'todo-container',
+            containerClass: 'todo-item',
             draggableItemClass: 'card',
             handleClass: 'handle',
             dataMode: true
@@ -28,18 +29,21 @@ var vue = new Vue({
     },
     methods: {
         handleDragEvent: function(event) {
-            console.log('hi');
-            var newIndex = event.detail.to.index;
-            var oldIndex = event.detail.from.index;
-            var newContainer = event.detail.to.container.__vue__.data;
-            var oldContainer = event.detail.from.container.__vue__.data;
-            if (event.detail.dragType === 'move') {
-                newContainer.splice(newIndex, 0, oldContainer.splice(oldIndex, 1)[0]);
+            var fromContainer = event.detail.from.container;
+            var toContainer = event.detail.to.container;
+            var startIndex = this.tasks.length - 1;
+            while (fromContainer.nextElementSibling != null){
+                startIndex--;
+                fromContainer = fromContainer.nextElementSibling;
             }
-        }//,
-        // addNewTodo: function() {
-        //     this.todos.regular.push(this.newTodoText)
-        //     this.newTodoText = ''
-        // }
+            var endIndex = this.tasks.length - 1;
+            while (toContainer.nextElementSibling != null){
+                endIndex--;
+                toContainer = toContainer.nextElementSibling;
+            }
+            if (event.detail.dragType === 'move') {
+                this.tasks.splice(endIndex, 0, this.tasks.splice(startIndex, 1)[0]);
+            }
+        }
     }
 });
