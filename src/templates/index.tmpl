@@ -28,7 +28,7 @@
                                             <span>({{`{{task.time}}`}})</span>
                                         </div>
                                         <div class="col">
-                                            <a class="remove" @click="tasks.splice(index, 1)"><i class="material-icons">clear</i></a>
+                                            <a class="remove" @click="deleteTask($event, tasks, index)"><i class="material-icons">clear</i></a>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -60,7 +60,7 @@
                                             <input class="black-text c-datepicker-input" type="textarea" v-model="task.time" @click="showDatePicker($event);" />
                                         </div>
                                         <div class="col">
-                                            <a class="remove" @click="tasks.splice(index, 1)"><i class="material-icons">clear</i></a>
+                                            <a class="remove" @click="deleteTask($event, tasks, index)"><i class="material-icons">clear</i></a>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -73,7 +73,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col s11">
-                                            <a class="waves-effect waves-light btn grey darken-3 white-text" @click.prevent="task.editing=false">Save</a>
+                                            <a class="waves-effect waves-light btn grey darken-3 white-text" @click.prevent="updateTask($event, task, index)">Save</a>
                                         </div>
                                     </div>
                                 </div>

@@ -10,8 +10,8 @@ import (
 	"time"
 )
 
-type config struct{
-	LayoutPath string
+type config struct {
+	LayoutPath  string
 	IncludePath string
 }
 
@@ -33,14 +33,15 @@ func main() {
 	templateManager.LoadTemplates()
 
 	server := http.Server{
-		Addr: "127.0.0.1:8080",
+		Addr:         "127.0.0.1:8080",
 		WriteTimeout: time.Second * 15,
-		ReadTimeout: time.Second * 15,
-		IdleTimeout: time.Second * 60,
+		ReadTimeout:  time.Second * 15,
+		IdleTimeout:  time.Second * 60,
 	}
 
 	views.RegisterStaticViews()
 	views.RegisterPublicViews()
+	views.RegisterTaskViews()
 
 	server.ListenAndServe()
 }

@@ -43,7 +43,10 @@ var vue = new Vue({
             }
             if (event.detail.dragType === 'move') {
                 this.tasks.splice(endIndex, 0, this.tasks.splice(startIndex, 1)[0]);
+                this.updateTaskPosition(event, startIndex, endIndex);
             }
+
+
         },
 
         showDatePicker: function(event){
@@ -53,6 +56,35 @@ var vue = new Vue({
                 event.target.dispatchEvent(e);
             });
             datepicker.open();
+        },
+
+        newTask: function(event){
+
+        },
+
+        updateTask: function(event, task, index){
+            task.editing = false;
+            this.sendTaskRequest(event, '/update_task',
+                                 {'index': index, 'title': task.title, 'time': task.time, 'body': task.body});
+        },
+
+        updateTaskPosition: function(event, startIndex, endIndex){
+            this.sendTaskRequest(event, '/update_task_pos',
+                                 {'startIndex': startIndex, 'endIndex': endIndex});
+        },
+
+        deleteTask: function(event, tasks, index){
+            tasks.splice(index, 1);
+            this.sendTaskRequest(event, '/delete_task', {'startIndex': index, 'endIndex': -1});
+        },
+
+        sendTaskRequest: function(event, url, data){
+            var XHR = new XMLHttpRequest();
+            var urlEncodedData = JSON.stringify(data);
+
+            XHR.open('POST', url);
+            XHR.setRequestHeader('Content-Type', 'application/json');
+            XHR.send(urlEncodedData);
         }
     }
 });
