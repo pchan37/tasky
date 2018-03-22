@@ -1,5 +1,11 @@
 {{ define "title" }}Homepage{{ end }}
 
+{{ define "css" }}
+
+<link rel="stylesheet" href="/static/css/material-datetime-picker.css" type="text/css" />
+
+{{ end }}
+
 {{ define "content" }}
 
 <div id="vue-container">
@@ -51,7 +57,7 @@
                                     <div class="row">
                                         <div class="col s11">
                                             <input class="black-text extra-spacing" type="textarea" v-model="task.title" />
-                                            <input class="black-text" type="textarea" v-model="task.time" />
+                                            <input class="black-text c-datepicker-input" type="textarea" v-model="task.time" @click="showDatePicker($event);" />
                                         </div>
                                         <div class="col">
                                             <a class="remove" @click="tasks.splice(index, 1)"><i class="material-icons">clear</i></a>
@@ -74,6 +80,7 @@
                             </div>
                         </div>
                     </div>
+
                 </template>
 
             </todo-item>
@@ -107,6 +114,8 @@
 
 {{ define "js" }}
 
-<script type="text/javascript" src="/static/js/editable.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rome/2.1.22/rome.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.js"></script>
+<script src="/static/js/material-datetime-picker.js" charset="utf-8"></script>
 
 {{ end }}
