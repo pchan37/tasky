@@ -35,3 +35,7 @@ i.icon-black {
 .round {
     border-radius: 3px !important;
 }
+
+.multiline-text {
+    white-space: pre-line;
+}
