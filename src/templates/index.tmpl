@@ -65,7 +65,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col s11">
-                                            <textarea class="white materialize-textarea textarea-extra-padding round black-text" v-model="task.body"></textarea>
+                                            <textarea class="white materialize-textarea textarea-extra-padding round black-text" @click="autosize($event.target)" v-model="task.body"></textarea>
                                         </div>
                                         <div class="col">
                                             <i class="material-icons handle">reorder</i>
@@ -114,8 +114,9 @@
 
 {{ define "js" }}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/rome/2.1.22/rome.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.js"></script>
-<script src="/static/js/material-datetime-picker.js" charset="utf-8"></script>
+<script type="text/javscript" src="https://cdnjs.cloudflare.com/ajax/libs/rome/2.1.22/rome.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.js"></script>
+<script type="text/javascript" src="/static/js/material-datetime-picker.js" charset="utf-8"></script>
+<script type="text/javascript" src="/static/js/autosize.js"></script>
 
 {{ end }}
