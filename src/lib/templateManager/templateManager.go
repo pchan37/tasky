@@ -6,7 +6,8 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
-	"tasky/pkg/bpool"
+
+	"github.com/oxtoacart/bpool"
 )
 
 type templateConfig struct {
