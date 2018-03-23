@@ -10,7 +10,7 @@ import (
 )
 
 type templateConfig struct {
-	layoutPath string
+	layoutPath  string
 	includePath string
 }
 

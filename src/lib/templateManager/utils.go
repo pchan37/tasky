@@ -7,7 +7,7 @@ import (
 )
 
 func getLayoutFiles() (layoutFiles []string, err error) {
-	layoutFiles, err = filepath.Glob(config.layoutPath + "*.tmpl");
+	layoutFiles, err = filepath.Glob(config.layoutPath + "*.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -15,7 +15,7 @@ func getLayoutFiles() (layoutFiles []string, err error) {
 }
 
 func getIncludeFiles() (includeFiles []string, err error) {
-	includeFiles, err = filepath.Glob(config.includePath + "*.tmpl");
+	includeFiles, err = filepath.Glob(config.includePath + "*.tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -23,7 +23,7 @@ func getIncludeFiles() (includeFiles []string, err error) {
 }
 
 func getMainTemplate() (mainTemplate *template.Template, err error) {
-	mainTemplate, err = template.New("main").Parse(mainTmpl);
+	mainTemplate, err = template.New("main").Parse(mainTmpl)
 	if err != nil {
 		log.Fatal(err)
 	}

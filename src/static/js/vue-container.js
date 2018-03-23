@@ -45,8 +45,6 @@ var vue = new Vue({
                 this.tasks.splice(endIndex, 0, this.tasks.splice(startIndex, 1)[0]);
                 this.updateTaskPosition(event, startIndex, endIndex);
             }
-
-
         },
 
         showDatePicker: function(event){
