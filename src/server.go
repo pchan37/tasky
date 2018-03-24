@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"tasky/src/lib/dbManager"
+	"tasky/src/lib/taskDatabase"
 	"tasky/src/lib/templateManager"
 	"tasky/src/views"
 	"time"
@@ -31,6 +33,9 @@ func loadConfig(filename string) {
 func main() {
 	loadConfig("config.json")
 	templateManager.LoadTemplates()
+
+	manager := taskDatabase.InitializeDatabase()
+	defer dbManager.Close(manager)
 
 	server := http.Server{
 		Addr:         "127.0.0.1:8080",

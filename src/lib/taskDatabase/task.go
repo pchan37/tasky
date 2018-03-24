@@ -1,14 +1,14 @@
-package tasks
+package taskDatabase
 
 import (
 	"fmt"
 )
 
 type Task struct {
-	Index int    `json:"index"`
-	Title string `json:"title"`
-	Time  string `json:"time"`
-	Body  string `json:"body"`
+	Index int    `json:"index" bson:"index"`
+	Title string `json:"title" bson:"title"`
+	Time  string `json:"time" bson:"time"`
+	Body  string `json:"body" bson:"body"`
 }
 
 func (t Task) String() string {
@@ -17,8 +17,8 @@ func (t Task) String() string {
 }
 
 type TaskPosition struct {
-	StartIndex int `json:"startIndex"`
-	EndIndex   int `json:"endIndex"`
+	StartIndex int `json:"startIndex" bson:"startIndex"`
+	EndIndex   int `json:"endIndex" bson:"endIndex"`
 }
 
 func (t TaskPosition) String() string {

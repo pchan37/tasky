@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
-	"tasky/src/lib/tasks"
+	"tasky/src/lib/taskDatabase"
 )
 
 func RegisterTaskViews() {
@@ -16,16 +17,31 @@ func RegisterTaskViews() {
 }
 
 func NewTask(w http.ResponseWriter, r *http.Request) {
-
+	if r.Method == "POST" {
+		body, err := ioutil.ReadAll(r.Body)
+		if err == nil {
+			task := taskDatabase.Task{}
+			json.Unmarshal(body, &task)
+			if !taskDatabase.Insert(task) {
+				log.Println("Error occurred while inserting task!")
+			}
+			fmt.Println(task)
+		} else {
+			fmt.Println("Error occurred: ", err)
+		}
+	}
 }
 
 func UpdateTask(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		body, err := ioutil.ReadAll(r.Body)
 		if err == nil {
-			response := tasks.Task{}
-			json.Unmarshal(body, &response)
-			fmt.Println(response)
+			task := taskDatabase.Task{}
+			json.Unmarshal(body, &task)
+			if !taskDatabase.Update(task) {
+				log.Println("Error occurred while updating task!")
+			}
+			fmt.Println(task)
 		} else {
 			fmt.Println("Error occurred: ", err)
 		}
@@ -36,9 +52,12 @@ func UpdateTaskPosition(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		body, err := ioutil.ReadAll(r.Body)
 		if err == nil {
-			response := tasks.TaskPosition{}
-			json.Unmarshal(body, &response)
-			fmt.Println(response)
+			taskPosition := taskDatabase.TaskPosition{}
+			json.Unmarshal(body, &taskPosition)
+			if !taskDatabase.UpdatePosition(taskPosition) {
+				log.Println("Error occurred while updating task position!")
+			}
+			fmt.Println(taskPosition)
 		} else {
 			fmt.Println("Error occurred: ", err)
 		}
@@ -49,9 +68,12 @@ func DeleteTask(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		body, err := ioutil.ReadAll(r.Body)
 		if err == nil {
-			response := tasks.TaskPosition{}
-			json.Unmarshal(body, &response)
-			fmt.Println(response)
+			taskPosition := taskDatabase.TaskPosition{}
+			json.Unmarshal(body, &taskPosition)
+			if !taskDatabase.Remove(taskPosition) {
+				log.Println("Error occurred while removing task!")
+			}
+			fmt.Println(taskPosition)
 		} else {
 			fmt.Println("Error occurred: ", err)
 		}

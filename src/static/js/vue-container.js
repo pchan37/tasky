@@ -56,8 +56,9 @@ var vue = new Vue({
             datepicker.open();
         },
 
-        newTask: function(event){
-
+        newTask: function(event, task, index){
+            this.sendTaskRequest(event, '/new_task',
+                                 {'index': index, 'title': task.title, 'time': task.time, 'body': task.body});
         },
 
         updateTask: function(event, task, index){
