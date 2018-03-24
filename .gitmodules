@@ -1,6 +1,6 @@
 [submodule "vendor/github.com/globalsign/mgo"]
 	path = vendor/github.com/globalsign/mgo
 	url = https://github.com/globalsign/mgo
-[submodule "vendor/github.com/bpool"]
-	path = vendor/github.com/bpool
+[submodule "vendor/github.com/oxtoacart/bpool"]
+	path = vendor/github.com/oxtoacart/bpool
 	url = https://github.com/oxtoacart/bpool
