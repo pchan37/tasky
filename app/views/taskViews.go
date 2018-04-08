@@ -6,7 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"tasky/src/lib/taskDatabase"
+
+	"github.com/pchan37/tasky/app/lib/taskDatabase"
 )
 
 func RegisterTaskViews() {

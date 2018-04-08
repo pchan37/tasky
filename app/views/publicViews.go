@@ -2,7 +2,8 @@ package views
 
 import (
 	"net/http"
-	"tasky/src/lib/templateManager"
+
+	"github.com/pchan37/tasky/app/lib/templateManager"
 )
 
 func RegisterPublicViews() {
