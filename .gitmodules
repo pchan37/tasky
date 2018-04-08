@@ -4,3 +4,6 @@
 [submodule "vendor/github.com/oxtoacart/bpool"]
 	path = vendor/github.com/oxtoacart/bpool
 	url = https://github.com/oxtoacart/bpool
+[submodule "vendor/github.com/PGonLib/PGo-Auth"]
+	path = vendor/github.com/PGonLib/PGo-Auth
+	url = https://github.com/PGonLib/PGo-Auth
