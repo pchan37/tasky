@@ -5,11 +5,12 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"tasky/src/lib/dbManager"
-	"tasky/src/lib/taskDatabase"
-	"tasky/src/lib/templateManager"
-	"tasky/src/views"
 	"time"
+
+	"github.com/pchan37/tasky/app/lib/dbManager"
+	"github.com/pchan37/tasky/app/lib/taskDatabase"
+	"github.com/pchan37/tasky/app/lib/templateManager"
+	"github.com/pchan37/tasky/app/views"
 )
 
 type config struct {
@@ -31,7 +32,7 @@ func loadConfig(filename string) {
 }
 
 func main() {
-	loadConfig("config.json")
+	loadConfig("config/config.json")
 	templateManager.LoadTemplates()
 
 	manager := taskDatabase.InitializeDatabase()
