@@ -6,6 +6,29 @@
 
 {{ end }}
 
+
+{{ define "navbar-content" }}
+
+<li><a href="/account">My Account</a></li>
+<li><a href="/logout">Logout</a></li>
+
+{{ end }}
+
+{{ define "sidenav-content" }}
+
+<li class="search">
+    <div class="search-wrapper card">
+        <input id="search" class="black-text"><i class="material-icons icon-black">search</i>
+        <div class="search-results"></div>
+    </div>
+</li>
+<li><a href="#!">Today</a></li>
+<li><a href="#!">Upcoming</a></li>
+<li><a href="#!">Thought Cloud</a></li>
+
+{{ end }}
+
+
 {{ define "content" }}
 
 <div id="vue-container">

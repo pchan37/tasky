@@ -11,6 +11,7 @@ func RegisterSecurityViews() {
 	http.HandleFunc("/register", RegisterHandler)
 	http.HandleFunc("/login", LoginHandler)
 	http.HandleFunc("/logout", LogoutHandler)
+	http.HandleFunc("/permission_denied", NotAuthorizedHandler)
 }
 
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
@@ -60,8 +61,8 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 			session.Save(r, w)
 			redirectBack(w, r)
 		}
-		addFlashMessage(w, r, "Incorrect username or password")
-		templateManager.RenderTemplate(w, "login.tmpl", nil)
+		data := map[string]string{"Messages": "Incorrect username or password!"}
+		templateManager.RenderTemplate(w, "login.tmpl", data)
 	}
 }
 
@@ -81,10 +82,8 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	templateManager.RenderTemplate(w, "index.tmpl", nil)
 }
 
-func addFlashMessage(w http.ResponseWriter, r *http.Request, message string) {
-	flashSession, _ := store.Get(r, "flashSession")
-	flashSession.AddFlash(message)
-	flashSession.Save(r, w)
+func NotAuthorizedHandler(w http.ResponseWriter, r *http.Request) {
+	templateManager.RenderTemplate(w, "403.tmpl", nil)
 }
 
 func redirectBack(w http.ResponseWriter, r *http.Request) {
@@ -97,12 +96,12 @@ func redirectBack(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
 
-func validateRegisterCredential(w http.ResponseWriter, r *http.Request, c *security.Credential) {
+func validateRegisterCredentials(w http.ResponseWriter, r *http.Request, c *security.Credential) {
 	if security.IsRegistered(c.Username) {
-		addFlashMessage(w, r, "Username already taken!")
-		templateManager.RenderTemplate(w, "register.tmpl", nil)
+		data := map[string]string{"Messages": "Username already taken!"}
+		templateManager.RenderTemplate(w, "register.tmpl", data)
 	} else if c.Password != c.ConfirmationPassword {
-		addFlashMessage(w, r, "Password does not match confirmation password!")
-		templateManager.RenderTemplate(w, "register.tmpl", nil)
+		data := map[string]string{"Messages": "Password does not match confirmation password!"}
+		templateManager.RenderTemplate(w, "register.tmpl", data)
 	}
 }

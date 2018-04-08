@@ -38,8 +38,8 @@
                             <a href="#" class="brand-logo">Tasky</a>
                         </div>
                         <ul id="top-nav" class="right hide-on-med-and-down">
-                            <li><a href="/account">My Account</a></li>
-                            <li><a href="/logout">Logout</a></li>
+                            {{ block "navbar-content" . }}
+                            {{ end }}
                         </ul>
                     </div>
                 </div>
@@ -49,15 +49,8 @@
                 <li class="logo">
                     <img src="/static/images/logo.png" height="auto">
                 </li>
-                <li class="search">
-                    <div class="search-wrapper card">
-                        <input id="search" class="black-text"><i class="material-icons icon-black">search</i>
-                        <div class="search-results"></div>
-                    </div>
-                </li>
-                <li><a href="#!">Today</a></li>
-                <li><a href="#!">Upcoming</a></li>
-                <li><a href="#!">Thought Cloud</a></li>
+                {{ block "sidenav-content" . }}
+                {{ end }}
             </ul>
 
         </header>

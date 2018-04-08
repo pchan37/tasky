@@ -2,11 +2,13 @@ package main
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
+	"github.com/PGonLib/PGo-Auth/pkg/security"
 	"github.com/pchan37/tasky/app/lib/dbManager"
 	"github.com/pchan37/tasky/app/lib/taskDatabase"
 	"github.com/pchan37/tasky/app/lib/templateManager"
@@ -38,6 +40,22 @@ func main() {
 	manager := taskDatabase.InitializeDatabase()
 	defer dbManager.Close(manager)
 
+	authKey, err := ioutil.ReadFile("keys/authKey")
+	if err != nil {
+		panic(err)
+	}
+	encryptKey, err := ioutil.ReadFile("keys/authKey")
+	if err != nil {
+		panic(err)
+	}
+
+	keys := security.Keys{
+		AuthKey:    authKey,
+		EncryptKey: encryptKey,
+	}
+	authManager := security.InitAuthManager("127.0.0.1:27017", "tasky", keys)
+	defer authManager.Close()
+
 	server := http.Server{
 		Addr:         "127.0.0.1:8080",
 		WriteTimeout: time.Second * 15,
@@ -48,6 +66,7 @@ func main() {
 	views.RegisterStaticViews()
 	views.RegisterPublicViews()
 	views.RegisterTaskViews()
+	views.RegisterSecurityViews()
 
 	server.ListenAndServe()
 }
