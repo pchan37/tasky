@@ -64,7 +64,7 @@ func main() {
 	}
 
 	views.RegisterStaticViews()
-	views.RegisterPublicViews()
+	views.RegisterPrivateViews()
 	views.RegisterTaskViews()
 	views.RegisterSecurityViews()
 
