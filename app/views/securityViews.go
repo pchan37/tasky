@@ -58,7 +58,6 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			session.Values["authenticated"] = true
 			session.Values["role"] = fullCredential.Role
-			session.Save(r, w)
 			redirectBack(w, r)
 		}
 		data := map[string]string{"Messages": "Incorrect username or password!"}
@@ -79,7 +78,7 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	templateManager.RenderTemplate(w, "index.tmpl", nil)
+	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
 
 func NotAuthorizedHandler(w http.ResponseWriter, r *http.Request) {
@@ -93,6 +92,7 @@ func redirectBack(w http.ResponseWriter, r *http.Request) {
 		session.Save(r, w)
 		http.Redirect(w, r, redirectURL, http.StatusTemporaryRedirect)
 	}
+	session.Save(r, w)
 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
 
