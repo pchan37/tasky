@@ -21,7 +21,6 @@ var vue = new Vue({
         lmdd.set(document.getElementById('drag-scope'), {
             containerClass: 'todo-item',
             draggableItemClass: 'card',
-            handleClass: 'handle',
             dataMode: true
         });
 
