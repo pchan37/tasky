@@ -44,7 +44,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	encryptKey, err := ioutil.ReadFile("keys/authKey")
+	encryptKey, err := ioutil.ReadFile("keys/encryptKey")
 	if err != nil {
 		panic(err)
 	}
