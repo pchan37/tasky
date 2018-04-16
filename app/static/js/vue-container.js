@@ -47,6 +47,11 @@ var vue = new Vue({
             }
         },
 
+        addNewTaskForm: function() {
+            this.tasks.unshift({title: '', body: '', time: '', editing: true});
+            console.log(this.tasks);
+        },
+
         showDatePicker: function(event){
             var datepicker = new MaterialDatetimePicker().on('submit', (val) => {
                 var e = new Event('input', {bubbles: true});
