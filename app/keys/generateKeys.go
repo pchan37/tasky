@@ -14,7 +14,7 @@ func main() {
 		fmt.Println("There was an error when generating the basepath for the keys...", err.Error())
 		os.Exit(1)
 	}
-	if err = security.CreateKeyFiles(basepath, 32, 32); err != nil {
+	if err = security.CreateKeyFiles(basepath, 64, 32); err != nil {
 		fmt.Println("Error generating keys...", err.Error())
 		os.Exit(1)
 	}
