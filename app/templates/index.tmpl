@@ -88,11 +88,20 @@
                                             <textarea class="white materialize-textarea textarea-extra-padding round black-text" @click="autosize($event.target)" v-model="task.body" required></textarea>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col s11">
-                                            <a class="waves-light btn grey darken-3 white-text" @click.prevent="updateTask($event, task, index)">Save</a>
+                                    <template v-if="!task.action">
+                                        <div class="row">
+                                            <div class="col s11">
+                                                <a class="waves-light btn grey darken-3 white-text" @click.prevent="updateTask($event, task, index)">Save</a>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </template>
+                                    <template v-else>
+                                        <div class="row">
+                                            <div class="col s11">
+                                                <a class="waves-light btn grey darken-3 white-text" @click.prevent="newTask($event, task)">Create</a>
+                                            </div>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
                         </div>

@@ -48,7 +48,7 @@ var vue = new Vue({
         },
 
         addNewTaskForm: function() {
-            this.tasks.unshift({title: '', body: '', time: '', editing: true});
+            this.tasks.unshift({title: '', body: '', time: '', editing: true, action: 'new'});
             console.log(this.tasks);
         },
 
@@ -61,9 +61,10 @@ var vue = new Vue({
             datepicker.open();
         },
 
-        newTask: function(event, task, index){
+        newTask: function(event, task){
+            task.editing = false;
             this.sendTaskRequest(event, '/new_task',
-                                 {'index': index, 'title': task.title, 'time': task.time, 'body': task.body});
+                                 {'index': 0, 'title': task.title, 'time': task.time, 'body': task.body});
         },
 
         updateTask: function(event, task, index){
