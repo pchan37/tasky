@@ -11,10 +11,22 @@ import (
 )
 
 func RegisterTaskViews() {
+	http.HandleFunc("/load_tasks", GetTasks)
 	http.HandleFunc("/new_task", NewTask)
 	http.HandleFunc("/update_task", UpdateTask)
 	http.HandleFunc("/update_task_pos", UpdateTaskPosition)
 	http.HandleFunc("/delete_task", DeleteTask)
+}
+
+func GetTasks(w http.ResponseWriter, r *http.Request) {
+	js := taskDatabase.GetAll()
+	if js == nil {
+		http.Error(w, "Error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
 }
 
 func NewTask(w http.ResponseWriter, r *http.Request) {

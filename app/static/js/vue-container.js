@@ -11,11 +11,7 @@ Vue.component('todo-item', {
 var vue = new Vue({
     el: '#vue-container',
     data: {
-        tasks: [
-            {title: 'Dishes', body: 'Do the dishes', time: '03/20/2018 19:03:00', editing: true},
-            {title: 'Trash', body: 'Take out the trash', time: '03/20/2018 19:03:00', editing: false},
-            {title: 'Lawn', body: 'Mow the lawn', time: '03/20/2018 19:03:00', editing: false}
-        ]
+        tasks: []
     },
     mounted: function() {
         lmdd.set(document.getElementById('drag-scope'), {
@@ -26,6 +22,7 @@ var vue = new Vue({
         });
 
         this.$el.addEventListener('lmddend', this.handleDragEvent);
+        this.loadTasks();
     },
     methods: {
         handleDragEvent: function(event) {
@@ -59,6 +56,18 @@ var vue = new Vue({
                 event.target.dispatchEvent(e);
             });
             datepicker.open();
+        },
+
+        loadTasks: function() {
+            fetch('/load_tasks').then(function(response) {
+                response.text().then(function(text) {
+                    var jsonData = JSON.parse(text);
+                    for(var i = 0; i < jsonData.length; i++) {
+                        jsonData[i]['editing'] = false;
+                    }
+                    vue.tasks = jsonData;
+                });
+            });
         },
 
         newTask: function(event, task){

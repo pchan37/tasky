@@ -17,6 +17,8 @@ func New(name string, addresses ...string) (d *DBManager) {
 	if err != nil {
 		panic(err)
 	}
+	session.SetMode(mgo.Strong, true)
+	session.SetSafe(&mgo.Safe{})
 	d = &DBManager{Name: name, session: session, Database: session.DB(name)}
 	return
 }

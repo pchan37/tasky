@@ -1,6 +1,9 @@
 package taskDatabase
 
 import (
+	"encoding/json"
+	"log"
+
 	"github.com/pchan37/tasky/app/lib/dbManager"
 
 	"github.com/globalsign/mgo"
@@ -10,18 +13,43 @@ import (
 var database *mgo.Database
 
 func Insert(task Task) (success bool) {
+	updateSelector := bson.M{"index": bson.M{"$gte": 0}}
+	updateUpdator := bson.M{"$inc": bson.M{"index": 1}}
+	_, err := database.C("tasks").UpdateAll(updateSelector, updateUpdator)
+	if err != nil {
+		return
+	}
 	if err := database.C("tasks").Insert(task); err == nil {
 		success = true
 	}
 	return
 }
 
+func Get() {
+
+}
+
+func GetAll() (result []byte) {
+	var queryResult []Task
+	if err := database.C("tasks").Find(bson.M{}).All(&queryResult); err == nil {
+		for i, j := 0, len(queryResult)-1; i < j; i, j = i+1, j-1 {
+			queryResult[i], queryResult[j] = queryResult[j], queryResult[i]
+		}
+		if result, err := json.Marshal(queryResult); err == nil {
+			return result
+		}
+	}
+	return nil
+}
+
 func Update(task Task) (success bool) {
 	selector := bson.M{"index": task.Index}
 	updator := bson.M{"$set": bson.M{"title": task.Title, "time": task.Time, "body": task.Body}}
-	if err := database.C("tasks").Update(selector, updator); err == nil {
+	var err error
+	if err = database.C("tasks").Update(selector, updator); err == nil {
 		success = true
 	}
+	log.Println(err)
 	return
 }
 
