@@ -31,10 +31,7 @@ func Get() {
 
 func GetAll() (result []byte) {
 	var queryResult []Task
-	if err := database.C("tasks").Find(bson.M{}).All(&queryResult); err == nil {
-		for i, j := 0, len(queryResult)-1; i < j; i, j = i+1, j-1 {
-			queryResult[i], queryResult[j] = queryResult[j], queryResult[i]
-		}
+	if err := database.C("tasks").Find(bson.M{}).Sort("index").All(&queryResult); err == nil {
 		if result, err := json.Marshal(queryResult); err == nil {
 			return result
 		}
@@ -61,7 +58,7 @@ func UpdatePosition(taskPosition TaskPosition) (success bool) {
 		updateSelector := bson.M{"index": bson.M{"$gt": taskPosition.StartIndex, "$lte": taskPosition.EndIndex}}
 		updateUpdator := bson.M{"$inc": bson.M{"index": -1}}
 		_, err = database.C("tasks").UpdateAll(updateSelector, updateUpdator)
-		updateTaskPositionSelector := bson.M{"index": task.Index, "title": task.Title, "time": task.Time, "body": task.Body}
+		updateTaskPositionSelector := bson.M{"index": taskPosition.StartIndex, "title": task.Title, "time": task.Time, "body": task.Body}
 		updateTaskPositionUpdator := bson.M{"$set": bson.M{"index": taskPosition.EndIndex}}
 		err = database.C("tasks").Update(updateTaskPositionSelector, updateTaskPositionUpdator)
 		if err == nil {
