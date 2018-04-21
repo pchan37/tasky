@@ -37,10 +37,14 @@ func NewTask(w http.ResponseWriter, r *http.Request) {
 			json.Unmarshal(body, &task)
 			if !taskDatabase.Insert(task) {
 				log.Println("Error occurred while inserting task!")
+				w.WriteHeader(http.StatusBadRequest)
+			} else {
+				w.WriteHeader(http.StatusOK)
 			}
 			fmt.Println(task)
 		} else {
 			fmt.Println("Error occurred: ", err)
+			w.WriteHeader(http.StatusBadRequest)
 		}
 	}
 }
@@ -53,10 +57,14 @@ func UpdateTask(w http.ResponseWriter, r *http.Request) {
 			json.Unmarshal(body, &task)
 			if !taskDatabase.Update(task) {
 				log.Println("Error occurred while updating task!")
+				w.WriteHeader(http.StatusBadRequest)
+			} else {
+				w.WriteHeader(http.StatusOK)
 			}
 			fmt.Println(task)
 		} else {
 			fmt.Println("Error occurred: ", err)
+			w.WriteHeader(http.StatusBadRequest)
 		}
 	}
 }
@@ -69,10 +77,14 @@ func UpdateTaskPosition(w http.ResponseWriter, r *http.Request) {
 			json.Unmarshal(body, &taskPosition)
 			if !taskDatabase.UpdatePosition(taskPosition) {
 				log.Println("Error occurred while updating task position!")
+				w.WriteHeader(http.StatusBadRequest)
+			} else {
+				w.WriteHeader(http.StatusOK)
 			}
 			fmt.Println(taskPosition)
 		} else {
 			fmt.Println("Error occurred: ", err)
+			w.WriteHeader(http.StatusBadRequest)
 		}
 	}
 }
@@ -85,10 +97,14 @@ func DeleteTask(w http.ResponseWriter, r *http.Request) {
 			json.Unmarshal(body, &taskPosition)
 			if !taskDatabase.Remove(taskPosition) {
 				log.Println("Error occurred while removing task!")
+				w.WriteHeader(http.StatusBadRequest)
+			} else {
+				w.WriteHeader(http.StatusOK)
 			}
 			fmt.Println(taskPosition)
 		} else {
 			fmt.Println("Error occurred: ", err)
+			w.WriteHeader(http.StatusBadRequest)
 		}
 	}
 }
