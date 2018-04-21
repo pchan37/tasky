@@ -64,7 +64,7 @@
             },
 
             loadTasks: function() {
-                fetch('/load_tasks').then(function(response) {
+                fetch('/load_tasks', {credentials: "same-origin"}).then(function(response) {
                     response.text().then(function(text) {
                         var jsonData = JSON.parse(text);
                         for(var i = 0; i < jsonData.length; i++) {

@@ -33,6 +33,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			session.Values["authenticated"] = true
+			session.Values["username"] = fullCredential.Username
 			session.Values["role"] = fullCredential.Role
 			session.Save(r, w)
 			redirectBack(w, r)
@@ -57,6 +58,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			session.Values["authenticated"] = true
+			session.Values["username"] = fullCredential.Username
 			session.Values["role"] = fullCredential.Role
 			redirectBack(w, r)
 		}

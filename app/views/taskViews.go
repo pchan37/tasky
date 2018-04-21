@@ -2,11 +2,11 @@ package views
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 
+	"github.com/PGonLib/PGo-Auth/pkg/security"
 	"github.com/pchan37/tasky/app/lib/taskDatabase"
 )
 
@@ -19,7 +19,8 @@ func RegisterTaskViews() {
 }
 
 func GetTasks(w http.ResponseWriter, r *http.Request) {
-	js := taskDatabase.GetAll()
+	username, _ := security.GetUsername(w, r)
+	js := taskDatabase.GetAll(username)
 	if js == nil {
 		http.Error(w, "Error", http.StatusInternalServerError)
 		return
@@ -33,17 +34,17 @@ func NewTask(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		body, err := ioutil.ReadAll(r.Body)
 		if err == nil {
+			username, _ := security.GetUsername(w, r)
 			task := taskDatabase.Task{}
 			json.Unmarshal(body, &task)
+			task.Username = username
 			if !taskDatabase.Insert(task) {
 				log.Println("Error occurred while inserting task!")
 				w.WriteHeader(http.StatusBadRequest)
 			} else {
 				w.WriteHeader(http.StatusOK)
 			}
-			fmt.Println(task)
 		} else {
-			fmt.Println("Error occurred: ", err)
 			w.WriteHeader(http.StatusBadRequest)
 		}
 	}
@@ -53,17 +54,17 @@ func UpdateTask(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		body, err := ioutil.ReadAll(r.Body)
 		if err == nil {
+			username, _ := security.GetUsername(w, r)
 			task := taskDatabase.Task{}
 			json.Unmarshal(body, &task)
+			task.Username = username
 			if !taskDatabase.Update(task) {
 				log.Println("Error occurred while updating task!")
 				w.WriteHeader(http.StatusBadRequest)
 			} else {
 				w.WriteHeader(http.StatusOK)
 			}
-			fmt.Println(task)
 		} else {
-			fmt.Println("Error occurred: ", err)
 			w.WriteHeader(http.StatusBadRequest)
 		}
 	}
@@ -73,17 +74,17 @@ func UpdateTaskPosition(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		body, err := ioutil.ReadAll(r.Body)
 		if err == nil {
+			username, _ := security.GetUsername(w, r)
 			taskPosition := taskDatabase.TaskPosition{}
 			json.Unmarshal(body, &taskPosition)
+			taskPosition.Username = username
 			if !taskDatabase.UpdatePosition(taskPosition) {
 				log.Println("Error occurred while updating task position!")
 				w.WriteHeader(http.StatusBadRequest)
 			} else {
 				w.WriteHeader(http.StatusOK)
 			}
-			fmt.Println(taskPosition)
 		} else {
-			fmt.Println("Error occurred: ", err)
 			w.WriteHeader(http.StatusBadRequest)
 		}
 	}
@@ -93,17 +94,17 @@ func DeleteTask(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		body, err := ioutil.ReadAll(r.Body)
 		if err == nil {
+			username, _ := security.GetUsername(w, r)
 			taskPosition := taskDatabase.TaskPosition{}
 			json.Unmarshal(body, &taskPosition)
+			taskPosition.Username = username
 			if !taskDatabase.Remove(taskPosition) {
 				log.Println("Error occurred while removing task!")
 				w.WriteHeader(http.StatusBadRequest)
 			} else {
 				w.WriteHeader(http.StatusOK)
 			}
-			fmt.Println(taskPosition)
 		} else {
-			fmt.Println("Error occurred: ", err)
 			w.WriteHeader(http.StatusBadRequest)
 		}
 	}
