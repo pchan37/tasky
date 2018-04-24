@@ -47,6 +47,18 @@ i.icon-black {
     /* width: 50%; */
 }
 
+.search-results {
+    display: block;
+    position: inherit !important;
+    opacity: 1;
+    background-color: #424242;
+}
+
+
+.dropdown-content li:hover, .dropdown-content li.active {
+    background-color: #303030;
+}
+
 .modal {
     background-color: #303030;
 }

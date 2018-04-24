@@ -17,9 +17,10 @@
 {{ define "sidenav-content" }}
 
 <li class="search">
-    <div class="search-wrapper white-text">
-        <input id="search"><i class="material-icons">search</i>
-        <div class="search-results"></div>
+    <div class="search-wrapper">
+        <input id="search" class="col s10" placeholder="Search"><i class="material-icons">search</i>
+        <ul class='dropdown-content search-results'>
+        </ul>
     </div>
 </li>
 <li><a href="#!">Today</a></li>
