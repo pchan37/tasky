@@ -1,6 +1,5 @@
 (function() {
     var taskQueue = new Queue();
-    var isRunning = false;
 
     Vue.component('todo-container', {
         template: '<div class="todo-container"><slot></slot></div>',
@@ -54,12 +53,41 @@
                 this.tasks.unshift({title: '', body: '', time: '', editing: true, action: 'new'});
             },
 
-            showDatePicker: function(event) {
-                var datepicker = new MaterialDatetimePicker().on('submit', (val) => {
-                    var e = new Event('input', {bubbles: true});
-                    Vue.set(event.target, 'value', val.format('MM/DD/YYYY HH:MM:SS'));
-                    event.target.dispatchEvent(e);
+            showDateTimePicker: function(event) {
+                event.stopPropagation();
+                var initialInput = event.target.value;
+                var time = initialInput.substring(11);
+                M.Datepicker.init(event.target, {
+                    format: 'mm/dd/yyyy',
+                    onClose: function() {
+                        if (datepicker.toString() !== '') {
+                            event.target.value = '';
+                            timepicker.open();
+                        }
+                    }
                 });
+                var datepicker = M.Datepicker.getInstance(event.target);
+                datepicker.close();
+
+                M.Timepicker.init(event.target, {
+                    defaultTime: time
+                });
+                var timepicker = M.Timepicker.getInstance(event.target);
+                timepicker.modal.options.onOpenStart = function() {
+                    event.target.value = initialInput;
+                };
+                timepicker.modal.options.onCloseEnd = function() {
+                    if (typeof timepicker.time !== "undefined") {
+                        event.target.value = datepicker.toString() + ' ' + event.target.value;
+                        event.target.dispatchEvent(new Event('change'));
+                        event.target.blur();
+                        event.target.addEventListener('focus', function(event) {
+                            vue.showDateTimePicker(event);
+                        }, {once: true});
+                    }
+                };
+                timepicker.close();
+
                 datepicker.open();
             },
 
@@ -82,6 +110,7 @@
                 const success = await this.sendTask();
                 if (success) {
                     task.editing = false;
+                    task.action = '';
                 }
             },
 
@@ -114,9 +143,9 @@
 
             sendTask: async function() {
                 var task = taskQueue.dequeue();
-                const result = await sendTaskRequest(task.url, task.data).then((result) => {
+                const result = await sendTaskRequest(task.url, task.data).then(() => {
                     return true;
-                }).catch((err) => {
+                }).catch(() => {
                     alert('Error sending data to server, ensure that you have internet access!');
                     return false;
                 });

@@ -17,8 +17,8 @@
 {{ define "sidenav-content" }}
 
 <li class="search">
-    <div class="search-wrapper card">
-        <input id="search" class="black-text"><i class="material-icons icon-black">search</i>
+    <div class="search-wrapper white-text">
+        <input id="search"><i class="material-icons">search</i>
         <div class="search-results"></div>
     </div>
 </li>
@@ -73,10 +73,10 @@
                                     <label :for="'task' + index"></label>
                                 </div>
                                 <div class="col s11">
-                                    <div class="row">
+                                    <div class="row white-text">
                                         <div class="col s11">
-                                            <input class="black-text extra-spacing" type="textarea" v-model="task.title" required/>
-                                            <input class="black-text c-datepicker-input" type="textarea" v-model="task.time" @focus="showDatePicker($event);" />
+                                            <input class="extra-spacing" type="textarea" v-model="task.title" required/>
+                                            <input class="waves-effect datepicker timepicker" type="textarea" v-model="task.time" @focus.once="showDateTimePicker($event);" @change="task.time=$event.target.value">
                                         </div>
                                         <div class="col">
                                             <a class="remove" @click="deleteTask($event, tasks, index)"><i class="material-icons">clear</i></a>
@@ -87,22 +87,23 @@
                                             <textarea class="white materialize-textarea textarea-extra-padding round black-text" @click="autosize($event.target)" v-model="task.body" required></textarea>
                                         </div>
                                     </div>
+                                    <template v-if="!(task.action == 'new')">
+                                        <div class="row">
+                                            <div class="col s11">
+                                                <a class="waves-light btn grey darken-3 white-text" @click.prevent="updateTask($event, task, index)">Save</a>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <div class="row">
+                                            <div class="col s11">
+                                                <a class="waves-light btn grey darken-3 white-text" @click.prevent="newTask($event, task)">Create</a>
+                                            </div>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
-                            <template v-if="!task.action">
-                                <div class="row">
-                                    <div class="col s11">
-                                        <a class="waves-light btn grey darken-3 white-text" @click.prevent="updateTask($event, task, index)">Save</a>
-                                    </div>
-                                </div>
-                            </template>
-                            <template v-else>
-                                <div class="row">
-                                    <div class="col s11">
-                                        <a class="waves-light btn grey darken-3 white-text" @click.prevent="newTask($event, task)">Create</a>
-                                    </div>
-                                </div>
-                            </template>
+
                         </div>
                     </div>
 
@@ -131,7 +132,8 @@
 <script type="text/javascript" src="/static/js/vue-container.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/rome/2.1.22/rome.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.js"></script>
-<script type="text/javascript" src="/static/js/material-datetime-picker.js" charset="utf-8"></script>
 <script type="text/javascript" src="/static/js/autosize.js"></script>
+<script type="text/javascript" src="/static/js/lunr.min.js"></script>
+<script type="text/javascript" src="/static/js/search.js"></script>
 
 {{ end }}

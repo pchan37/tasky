@@ -39,3 +39,34 @@ i.icon-black {
 .multiline-text {
     white-space: pre-line;
 }
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* width: 50%; */
+}
+
+.modal {
+    background-color: #303030;
+}
+
+/* Date Display */
+.datepicker-date-display {
+    background-color: #424242;
+    color: #fff;
+}
+
+.datepicker-table td.is-selected {
+    background-color: #424242;
+    color: #fff;
+}
+
+/* Clock Digital Display */
+.timepicker-digital-display {
+    background-color: #424242;
+}
+
+.timepicker-plate {
+    background-color: #424242;
+}
