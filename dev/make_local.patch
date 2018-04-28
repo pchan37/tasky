@@ -1,0 +1,48 @@
+--- server.go	2018-04-28 12:18:02.847353898 -0400
++++ local.go	2018-04-28 12:51:53.509289457 -0400
+@@ -4,9 +4,9 @@
+ 	"encoding/json"
+ 	"io/ioutil"
+ 	"log"
+-	"net"
+ 	"net/http"
+ 	"os"
++	"time"
+ 
+ 	"github.com/PGonLib/PGo-Auth/pkg/security"
+ 	"github.com/pchan37/tasky/app/lib/dbManager"
+@@ -15,8 +15,6 @@
+ 	"github.com/pchan37/tasky/app/views"
+ )
+ 
+-const SOCK = "/tmp/tasky.sock"
+-
+ type config struct {
+ 	LayoutPath  string
+ 	IncludePath string
+@@ -58,19 +56,17 @@
+ 	authManager := security.InitAuthManager("127.0.0.1:27017", "tasky", keys)
+ 	defer authManager.Close()
+ 
+-	os.Remove(SOCK)
+-	unixListener, err := net.Listen("unix", SOCK)
+-	if err != nil {
+-		log.Fatal("Listen (UNIX socket): ", err)
++	server := http.Server{
++		Addr:         "127.0.0.1:8080",
++		WriteTimeout: time.Second * 15,
++		ReadTimeout:  time.Second * 15,
++		IdleTimeout:  time.Second * 60,
+ 	}
+-	os.Chmod(SOCK, 0666)
+-	log.Println("Ready!")
+-	defer unixListener.Close()
+ 
+ 	views.RegisterStaticViews()
+ 	views.RegisterPrivateViews()
+ 	views.RegisterTaskViews()
+ 	views.RegisterSecurityViews()
+ 
+-	http.Serve(unixListener, http.DefaultServeMux)
++	server.ListenAndServe()
+ }
