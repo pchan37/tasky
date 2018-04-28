@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
+	"net"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/PGonLib/PGo-Auth/pkg/security"
 	"github.com/pchan37/tasky/app/lib/dbManager"
@@ -14,6 +14,8 @@ import (
 	"github.com/pchan37/tasky/app/lib/templateManager"
 	"github.com/pchan37/tasky/app/views"
 )
+
+const SOCK = "/tmp/tasky.sock"
 
 type config struct {
 	LayoutPath  string
@@ -56,17 +58,19 @@ func main() {
 	authManager := security.InitAuthManager("127.0.0.1:27017", "tasky", keys)
 	defer authManager.Close()
 
-	server := http.Server{
-		Addr:         "127.0.0.1:8080",
-		WriteTimeout: time.Second * 15,
-		ReadTimeout:  time.Second * 15,
-		IdleTimeout:  time.Second * 60,
+	os.Remove(SOCK)
+	unixListener, err := net.Listen("unix", SOCK)
+	if err != nil {
+		log.Fatal("Listen (UNIX socket): ", err)
 	}
+	os.Chmod(SOCK, 0666)
+	log.Println("Ready!")
+	defer unixListener.Close()
 
 	views.RegisterStaticViews()
 	views.RegisterPrivateViews()
 	views.RegisterTaskViews()
 	views.RegisterSecurityViews()
 
-	server.ListenAndServe()
+	http.Serve(unixListener, http.DefaultServeMux)
 }
